@@ -1,1 +1,1 @@
-Study hub App made in flask for cep wa3
+A place for students
