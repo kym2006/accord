@@ -2,9 +2,19 @@
 {% block body %} 
 
 <div> 
-    <label style="padding-right: 10px;">Time:</label>
-    <input name="time" style="width:30px">m:
-    <input name="time" style="width:30px">s
+    <label style="padding-right: 10px;">Duration:</label>
+    <form action="{{ url_for('loadtime') }}" method="POST"> 
+
+        <input type="number" step="5" style="width:50px" name="settime" value="30">m
+        <input type="submit">
+    </form>
+    <script>
+    
+        setInterval(() => {
+            fetch("{{ url_for('time_feed') }}")
+            .then(response => {});
+            }, 1000);  
+    </script>
 </div>
 
 {% endblock %}
