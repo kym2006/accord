@@ -1,0 +1,19 @@
+{% extends "template.html" %}
+{% block body %} 
+
+<div> 
+    <p id="clock"></p>
+
+<script>
+    var clock = document.getElementById("clock");
+
+    setInterval(() => {
+        fetch("{{ url_for('time_feed') }}")
+        .then(response => {
+                response.text().then((t) => {if(t)clock.innerHTML = Math.floor(t/60)+":"+t%60;})
+            });
+        }, 1000);  
+</script>
+</div>
+
+{% endblock %}
