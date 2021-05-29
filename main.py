@@ -10,14 +10,19 @@ timeleft = -1
 def root():
     return render_template("index.html")
 
+@app.route('/done') 
+def done():
+    return render_template('index.html', done=1)
+
 @app.route('/time_feed')
 def time_feed():
     global timeleft 
     timeleft = timeleft - 1
+    if timeleft <= -1:
+        timeleft = 0
     def generate():
-        if timeleft < 0:
-            return ''
-        
+        global timeleft 
+            
         return str(timeleft)  # return also will work
     return Response(generate(), mimetype='text') 
 
