@@ -2,8 +2,11 @@
 {% block body %} 
 
 <div style="align-items: center; text-align: center;"> 
-{% for i in range((logs | length) | int) %}
-    <p>Date: {{ logs[i][1]['enddate'] | string }}</p>
+{% for k,v in logs.items() %}
+    <p>Date: {{k}} </p>
+    {% for i in v %} 
+        <p>starttime: {{i['starttime']}} <br> duration: {{i['duration']}} <br> desc: {{i['desc']}}</p>
+    {% endfor %}
 
 {% endfor %}
 </div>

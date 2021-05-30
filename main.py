@@ -1,7 +1,7 @@
 import flask 
 from flask import render_template, Response
 from flask.globals import request
-from datetime import datetime
+from datetime import datetime, timedelta
 import math
 import time
 import json 
@@ -47,14 +47,24 @@ def viewlogs():
     else:
         savedata = {}
         savedata["id"] = 0
-    print(savedata)
     for k, v in savedata.items():
-        print(k, v)
         if type(v) == type(savedata):
             v['enddate'] = datetime.strptime(v['enddate'], '%Y-%m-%d %H:%M:%S.%f')
-            print(v['enddate'])
-    print(list(savedata.items())[1:])
-    return render_template("logs.html", logs=list(savedata.items())[1:])
+    savedata = dict(list(savedata.items())[1:])
+    info = dict() 
+    print(savedata)
+    for k, v in savedata.items():
+        start = v['enddate'] - timedelta(minutes=settime)
+        datestr = start.strftime("%A, %d %B %Y")
+        if datestr not in info:
+            info[datestr] = [] 
+        di = dict()
+        di['starttime'] = start.strftime("%H:%M")
+        di['duration'] = v['duration']
+        di['desc'] = v['desc'] 
+        info[datestr].append(di)
+    print(info)
+    return render_template("logs.html", logs=info)
 
 @app.route('/intolog', methods=['GET', 'POST'])
 def intolog():
