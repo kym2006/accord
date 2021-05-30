@@ -2,7 +2,10 @@
 {% block body %} 
 
 <div style="align-items: center; text-align: center;"> 
+{% for i in range((logs | length) | int) %}
+    <p>Date: {{ logs[i][1]['enddate'] | string }}</p>
 
+{% endfor %}
 </div>
 
 {% endblock %}

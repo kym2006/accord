@@ -41,18 +41,29 @@ def loadtime():
 
 @app.route('/viewlogs')
 def viewlogs():
-    return render_template("logs.html")
-
-@app.route('/intolog', methods=['GET', 'POST'])
-def intolog():
-    print(request.form['desc'])
     if os.path.exists("data.json"):
         with open("data.json") as datafile:
             savedata = json.load(datafile)
     else:
         savedata = {}
         savedata["id"] = 0
-    
+    print(savedata)
+    for k, v in savedata.items():
+        print(k, v)
+        if type(v) == type(savedata):
+            v['enddate'] = datetime.strptime(v['enddate'], '%Y-%m-%d %H:%M:%S.%f')
+            print(v['enddate'])
+    print(list(savedata.items())[1:])
+    return render_template("logs.html", logs=list(savedata.items())[1:])
+
+@app.route('/intolog', methods=['GET', 'POST'])
+def intolog():
+    if os.path.exists("data.json"):
+        with open("data.json") as datafile:
+            savedata = json.load(datafile)
+    else:
+        savedata = {}
+        savedata["id"] = 0
     id=savedata["id"]
     savedata["id"]+=1
     savedata[id] = dict( {
