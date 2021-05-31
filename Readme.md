@@ -4,5 +4,5 @@ some stuff
 2 - add export features 
 3 - timer reset button 
 4 - screen saver
-5 - add to logs for diary for each day
+5 - add to logs for or something for each day
 6 - 
