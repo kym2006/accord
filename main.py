@@ -54,12 +54,13 @@ def viewlogs():
     info = dict() 
     print(savedata)
     for k, v in savedata.items():
-        start = v['enddate'] - timedelta(minutes=settime)
+        start = v['enddate'] - timedelta(seconds=settime)
         datestr = start.strftime("%A, %d %B %Y")
         if datestr not in info:
             info[datestr] = [] 
         di = dict()
         di['starttime'] = start.strftime("%H:%M")
+        di['endtime'] = v['enddate'].strftime("%H:%M")
         di['duration'] = v['duration']
         di['desc'] = v['desc'] 
         info[datestr].append(di)

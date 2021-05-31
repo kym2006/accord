@@ -3,10 +3,16 @@
 
 <div style="align-items: center; text-align: center;"> 
 {% for k,v in logs %}
-    <button type="button" class="collapsible">{{k}}</button>
+    <div class="collapsible"> 
+      <button type="button" class="collapsible">{{k}}</button>
+    </div>
     <div class="detailedindate"> 
         {% for i in v %} 
-            <p>starttime: {{i['starttime']}} <br> duration: {{i['duration']}} <br> desc: {{i['desc']}}</p>
+            <div style="padding-top:10px; padding-bottom: 10px; margin-bottom: 20px; background-color: #f1f1f1;">
+              <span class="showtime">{{i['starttime']}} - {{i['endtime']}} <br> {{i['duration']}}s</span>
+              <p>{{i['desc']}}</p>
+            </div>  
+            
         {% endfor %}
     </div> 
 {% endfor %}

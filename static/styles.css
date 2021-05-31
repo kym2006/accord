@@ -111,9 +111,17 @@ body {
   }
 
   .detailedindate {
-    padding: 16px;
-    height: 100%;
+    padding: 18px;
+    left: 80;
+    width: 80%;
+    position: relative;
     display: none;
     overflow: auto;
-    background-color: #f1f1f1;
+    
+    margin-bottom: 50px;
+  }
+
+  .showtime {
+    float: left;
+    color: #aaa;
   }
