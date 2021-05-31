@@ -35,8 +35,8 @@ def time_feed():
 def loadtime():
     global timeleft, settime
     if request.method == "POST":
-        timeleft = int(request.form['settime']) * 60 
-        settime = timeleft//60
+        timeleft = int(request.form['settime']) * 60  + int(request.form['settimesec'])
+        settime = timeleft
     return render_template("countingdown.html")
 
 @app.route('/viewlogs')

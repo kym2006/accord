@@ -19,6 +19,8 @@
     <form action="{{ url_for('loadtime') }}" method="POST"> 
 
         <input type="number" step="1" name="settime" value="30" id="timeinput" min="0">
+        <span id="timeinput">:</span>
+        <input type="number" step="1" name="settimesec" value="0" id="timeinput" min="0" max="59">
         <br>
         <input type="submit" value="Start!" id="startbutton">
     </form>
