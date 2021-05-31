@@ -2,13 +2,29 @@
 {% block body %} 
 
 <div style="align-items: center; text-align: center;"> 
-{% for k,v in logs.items() %}
-    <p>Date: {{k}} </p>
-    {% for i in v %} 
-        <p>starttime: {{i['starttime']}} <br> duration: {{i['duration']}} <br> desc: {{i['desc']}}</p>
-    {% endfor %}
-
+{% for k,v in logs %}
+    <button type="button" class="collapsible">{{k}}</button>
+    <div class="detailedindate"> 
+        {% for i in v %} 
+            <p>starttime: {{i['starttime']}} <br> duration: {{i['duration']}} <br> desc: {{i['desc']}}</p>
+        {% endfor %}
+    </div> 
 {% endfor %}
 </div>
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+var i;
 
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+</script>
 {% endblock %}

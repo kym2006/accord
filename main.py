@@ -64,7 +64,7 @@ def viewlogs():
         di['desc'] = v['desc'] 
         info[datestr].append(di)
     print(info)
-    return render_template("logs.html", logs=info)
+    return render_template("logs.html", logs=reversed(info.items()))
 
 @app.route('/intolog', methods=['GET', 'POST'])
 def intolog():

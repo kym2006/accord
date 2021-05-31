@@ -93,3 +93,27 @@ body {
     text-decoration: none;
     cursor: pointer;
   }
+
+  .collapsible {
+    background-color: #eee;
+    color: #444;
+    position: relative;
+    cursor: pointer;
+    padding: 18px;
+    left: 80px; 
+    width: 80%;
+    border: none;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  .active, .collapsible:hover {
+    background-color: #ccc;
+  }
+
+  .detailedindate {
+    padding: 16px;
+    height: 100%;
+    display: none;
+    overflow: auto;
+    background-color: #f1f1f1;
+  }
