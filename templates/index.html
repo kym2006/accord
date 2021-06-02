@@ -3,7 +3,7 @@
 
 <div style="align-items: center; text-align: center;"> 
     {% if done %}
-    <div id="myModal" class="modal">
+    <div id="myModal" class="modal" onload="playSound()">
 
         <!-- Modal content -->
         <div class="modal-content">
@@ -15,6 +15,11 @@
         </div>
         
       </div>
+      <script>
+            const audio = new Audio("https://cdn.discordapp.com/attachments/814858312758853643/849494495803211776/Discord_Connect_Sound.mp3");
+            audio.play();
+            
+      </script>
     {% endif %}
     <form action="{{ url_for('loadtime') }}" method="POST"> 
 

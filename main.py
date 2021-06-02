@@ -39,6 +39,13 @@ def loadtime():
         settime = timeleft
     return render_template("countingdown.html")
 
+@app.route('/resettimer', methods=['GET', 'POST'])
+def resettimer():
+    global timeleft
+    timeleft = -1
+    return flask.redirect("/")
+
+
 @app.route('/viewlogs')
 def viewlogs():
     if os.path.exists("data.json"):
@@ -61,7 +68,7 @@ def viewlogs():
         di = dict()
         di['starttime'] = start.strftime("%H:%M")
         di['endtime'] = v['enddate'].strftime("%H:%M")
-        di['duration'] = v['duration']
+        di['duration'] = str(v['duration']//3600).rjust(2, '0') + ":" + str((v['duration']%3600)//60).rjust(2,'0') + ":" + str(v['duration']%60).rjust(2,'0')
         di['desc'] = v['desc'] 
         info[datestr].append(di)
     print(info)
@@ -69,6 +76,8 @@ def viewlogs():
 
 @app.route('/intolog', methods=['GET', 'POST'])
 def intolog():
+    if settime==-1:
+        return render_template("index.html")
     if os.path.exists("data.json"):
         with open("data.json") as datafile:
             savedata = json.load(datafile)

@@ -124,4 +124,11 @@ body {
   .showtime {
     float: left;
     color: #aaa;
+    width: 50px;
+  }
+  .individualentry {
+    padding: 10px;
+    text-align: left;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
   }
