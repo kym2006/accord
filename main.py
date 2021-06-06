@@ -17,7 +17,25 @@ def root():
 def done():
     return render_template('index.html', done=1)
 
+@app.route('/addtag', methods=["POST"])
+def addtag():
+    if os.path.exists("data.json"):
+        with open("data.json") as datafile:
+            savedata = json.load(datafile)
+    else:
+        savedata = {}
+        savedata["id"] = 0
+        savedata["tags"] = []
+    if "tags" not in savedata:
+        savedata["tags"] = []
+    savedata["tags"].append(request.form["newtag"])
+    with open("data.json", "w+") as datafile:
+        json.dump(savedata, datafile)
 
+    return render_template("index.html")
+
+
+    
 
 @app.route('/time_feed')
 def time_feed():
@@ -37,12 +55,15 @@ def loadtime():
     if request.method == "POST":
         timeleft = int(request.form['settime']) * 60  + int(request.form['settimesec'])
         settime = timeleft
+    else:
+        if timeleft == 0:
+            return render_template("index.html")
     return render_template("countingdown.html")
 
 @app.route('/resettimer', methods=['GET', 'POST'])
 def resettimer():
     global timeleft
-    timeleft = -1
+    timeleft = 0
     return flask.redirect("/")
 
 
@@ -54,6 +75,7 @@ def viewlogs():
     else:
         savedata = {}
         savedata["id"] = 0
+        savedata["tags"] = []
     for k, v in savedata.items():
         if type(v) == type(savedata):
             v['enddate'] = datetime.strptime(v['enddate'], '%Y-%m-%d %H:%M:%S.%f')
@@ -61,6 +83,8 @@ def viewlogs():
     info = dict() 
     print(savedata)
     for k, v in savedata.items():
+        if type(v) != type(dict()):
+            continue
         start = v['enddate'] - timedelta(seconds=settime)
         datestr = start.strftime("%A, %d %B %Y")
         if datestr not in info:
@@ -74,6 +98,8 @@ def viewlogs():
     print(info)
     return render_template("logs.html", logs=reversed(info.items()))
 
+
+
 @app.route('/intolog', methods=['GET', 'POST'])
 def intolog():
     if settime==-1:
@@ -84,6 +110,7 @@ def intolog():
     else:
         savedata = {}
         savedata["id"] = 0
+        savedata["tags"] = []
     id=savedata["id"]
     savedata["id"]+=1
     savedata[id] = dict( {
