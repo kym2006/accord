@@ -1,39 +1,37 @@
-{% extends "template.html" %}
-{% block body %} 
+{% extends "template.html" %} {% block body %}
 
-<div style="align-items: center; text-align: center;"> 
-{% for k,v in logs %}
-    <div class="collapsible"> 
-      {{k}}
+<div style="align-items: center; text-align: center">
+  {% for k,v in logs %}
+  <div class="collapsible">{{k}}</div>
+  <div class="detailedindate">
+    {% for i in v %}
+    <div class="individualentry">
+      <span class="showtime"
+        >{{i['starttime']}} - {{i['endtime']}} {{i['duration']}}</span
+      >
+      <div>
+        <p style="position: relative; left: 20px">| {{i['desc']}}</p>
+      </div>
     </div>
-    <div class="detailedindate"> 
-        {% for i in v %} 
-            <div class="individualentry">
-              <span class="showtime">{{i['starttime']}} - {{i['endtime']}} {{i['duration']}}</span>
-              <div style="position: relative; left: 20px; top: 10px;">
-                <p>{{i['desc']}}</p>
-              </div>
-              
-            </div>  
-            
-        {% endfor %}
-    </div> 
-{% endfor %}
+
+    {% endfor %}
+  </div>
+  {% endfor %}
 </div>
 <script>
-    var coll = document.getElementsByClassName("collapsible");
-var i;
+  var coll = document.getElementsByClassName("collapsible");
+  var i;
 
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
-  });
-}
+  for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function () {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+      }
+    });
+  }
 </script>
 {% endblock %}

@@ -1,59 +1,90 @@
-{% extends "template.html" %}
-{% block body %} 
+{% extends "template.html" %} {% block body %}
 
-<div style="align-items: center; text-align: center;"> 
-    {% if done %}
-    <div id="myModal" class="modal" onload="playSound()">
-
-        <!-- Modal content -->
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <form action=" {{ url_for('intolog') }} " method="POST">
-              <input type="text" name="desc">
-              <input type="submit" id="startbutton">
-          </form>
-        </div>
-        
-      </div>
-      <script>
-            const audio = new Audio("https://cdn.discordapp.com/attachments/814858312758853643/849494495803211776/Discord_Connect_Sound.mp3");
-            audio.play();
-            
-      </script>
-    {% endif %}
-    <form action="{{ url_for('loadtime') }}" method="POST"> 
-
-        <input type="number" step="1" name="settime" value="30" id="timeinput" min="0">
-        <span id="timeinput">:</span>
-        <input type="number" step="1" name="settimesec" value="0" id="timeinput" min="0" max="59">
+<div style="align-items: center; text-align: center">
+  {% if done %}
+  <div id="myModal" class="modal" onload="playSound()">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form
+        action="{{ url_for('intolog') }}"
+        method="POST"
+        style="bottom: 30px"
+      >
+        <input
+          type="text"
+          name="desc"
+          class="addtaginput"
+          placeholder="What you have done"
+        />
         <br>
-        <input type="submit" value="Start!" id="startbutton">
-    </form>
-    <div> 
-        <form action="{{ url_for('addtag') }}" method="POST"> 
-            <input type="text" name="newtag" class="addtaginput" placeholder="Add something">
-            <br>
-            <input type="submit" value="Add Tag!" id="startbutton">
-        </form>
+        {% for tag in tags %}
+        <span style="width: 25px; height: 25px; font-size: 25px;">{{tag}}</span>
+        <input type="checkbox" style="width: 25px; height: 25px" />
+        {% endfor %}
+        <br>
+        <input type="submit" id="startbutton" />
+      </form>
     </div>
-    <script>
-        // Get the modal
-        var modal = document.getElementById("myModal");
+  </div>
+  <script>
+    const audio = new Audio(
+      "https://cdn.discordapp.com/attachments/840481428064174081/852882092395331624/Ringtone_Acknowledging_Mix_-_Discord.mp3"
+    );
+    audio.play();
+  </script>
+  {% endif %}
+  <form action="{{ url_for('loadtime') }}" method="POST">
+    <input
+      type="number"
+      step="1"
+      name="settime"
+      value="30"
+      id="timeinput"
+      min="0"
+    />
+    <span id="timeinput">:</span>
+    <input
+      type="number"
+      step="1"
+      name="settimesec"
+      value="0"
+      id="timeinput"
+      min="0"
+      max="59"
+    />
+    <br />
+    <input type="submit" value="Start!" id="startbutton" />
+  </form>
+  <div>
+    <form action="{{ url_for('addtag') }}" method="POST">
+      <input
+        type="text"
+        name="newtag"
+        class="addtaginput"
+        placeholder="Add something"
+      />
+      <br />
+      <input type="submit" value="Add Tag!" id="startbutton" />
+    </form>
+  </div>
+  <script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
 
-        var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName("close")[0];
 
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
+    span.onclick = function () {
+      modal.style.display = "none";
+    };
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-    </script>
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  </script>
 </div>
 
 {% endblock %}

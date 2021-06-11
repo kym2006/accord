@@ -1,31 +1,31 @@
-{% extends "template.html" %}
-{% block body %} 
+{% extends "template.html" %} {% block body %}
 
-<div style="align-items: center; text-align: center;"> 
-    <p id="clock"></p>
+<div style="align-items: center; text-align: center">
+  <p id="clock"></p>
 
-    <form action="{{ url_for('resettimer') }}" method="POST">
-        <input type="submit" value="Reset" id="startbutton">
-    </form>
-    
+  <form action="{{ url_for('resettimer') }}" method="POST">
+    <input type="submit" value="Reset" id="startbutton" />
+  </form>
 </div>
 <script>
-    var clock = document.getElementById("clock");
-    
-    setInterval(() => {
-        fetch("{{ url_for('time_feed') }}")
-        .then(response => {
-                response.text().then((t) => {
-                    console.log(t)
-                    clock.innerHTML = String(Math.floor(t/3600)).padStart(2, '0') +":"+ String(Math.floor((t%3600)/60)).padStart(2, '0')+":"+String(t%60).padStart(2, '0');
-                    if(t==0) {
-                        window.location.replace("/done"); 
-                    }
-                    
-                    
-                })
-            });
-        }, 1000);  
+  var clock = document.getElementById("clock");
+
+  setInterval(() => {
+    fetch("{{ url_for('time_feed') }}").then((response) => {
+      response.text().then((t) => {
+        console.log(t);
+        clock.innerHTML =
+          String(Math.floor(t / 3600)).padStart(2, "0") +
+          ":" +
+          String(Math.floor((t % 3600) / 60)).padStart(2, "0") +
+          ":" +
+          String(t % 60).padStart(2, "0");
+        if (t == 0) {
+          window.location.replace("/done");
+        }
+      });
+    });
+  }, 1000);
 </script>
 
 {% endblock %}

@@ -1,21 +1,32 @@
-import flask 
+import flask
 from flask import render_template, Response
 from flask.globals import request
 from datetime import datetime, timedelta
 import math
 import time
-import json 
-import os 
-app=flask.Flask(__name__)
+import json
+import os
+app = flask.Flask(__name__)
 timeleft = -1
 settime = -1
+
+
 @app.route('/')
 def root():
     return render_template("index.html")
 
-@app.route('/done') 
+
+@app.route('/done')
 def done():
-    return render_template('index.html', done=1)
+    if os.path.exists("data.json"):
+        with open("data.json") as datafile:
+            savedata = json.load(datafile)
+    else:
+        savedata = {}
+        savedata["id"] = 0
+        savedata["tags"] = []
+    return render_template('index.html', done=1, tags=savedata["tags"])
+
 
 @app.route('/addtag', methods=["POST"])
 def addtag():
@@ -35,30 +46,32 @@ def addtag():
     return render_template("index.html")
 
 
-    
-
 @app.route('/time_feed')
 def time_feed():
-    global timeleft 
+    global timeleft
     timeleft = timeleft - 1
     if timeleft <= -1:
         timeleft = 0
+
     def generate():
-        global timeleft 
-            
+        global timeleft
+
         return str(timeleft)  # return also will work
-    return Response(generate(), mimetype='text') 
+    return Response(generate(), mimetype='text')
+
 
 @app.route('/loadtime', methods=['GET', 'POST'])
 def loadtime():
     global timeleft, settime
     if request.method == "POST":
-        timeleft = int(request.form['settime']) * 60  + int(request.form['settimesec'])
+        timeleft = int(request.form['settime']) * \
+            60 + int(request.form['settimesec'])
         settime = timeleft
     else:
         if timeleft == 0:
             return render_template("index.html")
     return render_template("countingdown.html")
+
 
 @app.route('/resettimer', methods=['GET', 'POST'])
 def resettimer():
@@ -78,9 +91,10 @@ def viewlogs():
         savedata["tags"] = []
     for k, v in savedata.items():
         if type(v) == type(savedata):
-            v['enddate'] = datetime.strptime(v['enddate'], '%Y-%m-%d %H:%M:%S.%f')
+            v['enddate'] = datetime.strptime(
+                v['enddate'], '%Y-%m-%d %H:%M:%S.%f')
     savedata = dict(list(savedata.items())[1:])
-    info = dict() 
+    info = dict()
     print(savedata)
     for k, v in savedata.items():
         if type(v) != type(dict()):
@@ -88,21 +102,21 @@ def viewlogs():
         start = v['enddate'] - timedelta(seconds=settime)
         datestr = start.strftime("%A, %d %B %Y")
         if datestr not in info:
-            info[datestr] = [] 
+            info[datestr] = []
         di = dict()
         di['starttime'] = start.strftime("%H:%M")
         di['endtime'] = v['enddate'].strftime("%H:%M")
-        di['duration'] = str(v['duration']//3600).rjust(2, '0') + ":" + str((v['duration']%3600)//60).rjust(2,'0') + ":" + str(v['duration']%60).rjust(2,'0')
-        di['desc'] = v['desc'] 
+        di['duration'] = str(v['duration']//3600).rjust(2, '0') + ":" + str(
+            (v['duration'] % 3600)//60).rjust(2, '0') + ":" + str(v['duration'] % 60).rjust(2, '0')
+        di['desc'] = v['desc']
         info[datestr].append(di)
     print(info)
     return render_template("logs.html", logs=reversed(info.items()))
 
 
-
 @app.route('/intolog', methods=['GET', 'POST'])
 def intolog():
-    if settime==-1:
+    if settime == -1:
         return render_template("index.html")
     if os.path.exists("data.json"):
         with open("data.json") as datafile:
@@ -111,9 +125,9 @@ def intolog():
         savedata = {}
         savedata["id"] = 0
         savedata["tags"] = []
-    id=savedata["id"]
-    savedata["id"]+=1
-    savedata[id] = dict( {
+    id = savedata["id"]
+    savedata["id"] += 1
+    savedata[id] = dict({
         "desc": request.form["desc"],
         "enddate": str(datetime.now()),
         "duration": settime
@@ -123,5 +137,5 @@ def intolog():
 
     return render_template("index.html")
 
-app.run(host="0.0.0.0", port=8080, debug=True)
 
+app.run(host="0.0.0.0", port=8080, debug=True)

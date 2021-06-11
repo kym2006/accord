@@ -1,20 +1,18 @@
 <html>
-    <head>
-        <title>Accord - A place for students</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    </head>
-    <body>
-        <div class="sidebar">
-            <a class="" href=".">Home</a>
-            <a class="" href="{{ url_for('viewlogs') }}">Logs</a>
-            <a class="" href="{{ url_for('loadtime') }}"> Timer </a> 
-          </div>
-    </body>
-    <div class="content">
-        {% block body %}
-        Body
-        {% endblock %}
+  <head>
+    <title>Accord - A place for students</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="sidebar">
+      <a class="" href=".">Home</a>
+      <a class="" href="{{ url_for('viewlogs') }}">Logs</a>
+      <a class="" href="{{ url_for('loadtime') }}"> Timer </a>
     </div>
-    
+  </body>
+  <div class="content">{% block body %} Body {% endblock %}</div>
 </html>
