@@ -145,5 +145,4 @@ def removetag():
         json.dump(savedata, datafile)
 
     return render_template("settings.html")
-#app.run(host="0.0.0.0", port=8080, debug=True)
-app.run()
+app.run(host="0.0.0.0", port=33507, debug=True)
