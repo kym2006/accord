@@ -14,10 +14,34 @@
     </form>
   </div>
 </div>
-<div style="align-items: center; text-align: center">
-{% for tag in tags %}
-<span class="atag">{{tag}}</span>
-{% endfor %}
+<div style="align-items: center; text-align: center" id="tags">
+  {% for tag in tags %}
+  <span class="atag">{{tag}}</span>
+  {% endfor %}
 </div>
+
+<div style="align-items: center; text-align: center; position: relative; top: 50px;">
+  <input type="file"  accept="image/gif, image/jpeg, image/png" name="image" id="file" style="display: none;">
+
+
+</div>
+
+<script>
+  var divtags = document.getElementById("tags");
+  for (let i = 0; i < divtags.children.length; i++) {
+    console.log(divtags.children[i]);
+    divtags.children[i].onclick = function () {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", '/removetag', true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(
+        JSON.stringify({
+          value: divtags.children[i].innerHTML,
+        })
+      );
+      divtags.removeChild(divtags.children[i])
+    };
+  }
+</script>
 
 {% endblock %}

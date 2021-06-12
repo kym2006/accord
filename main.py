@@ -48,7 +48,7 @@ def addtag():
     with open("data.json", "w+") as datafile:
         json.dump(savedata, datafile)
 
-    return render_template("index.html")
+    return render_template("settings.html", tags=savedata["tags"])
 
 
 @app.route('/time_feed')
@@ -136,5 +136,13 @@ def intolog():
 
     return render_template("index.html")
 
+@app.route('/removetag', methods=['POST'])
+def removetag():
+    print(request.json["value"])
+    savedata = getdata()
+    savedata["tags"].remove(request.json["value"])
+    with open("data.json", "w+") as datafile:
+        json.dump(savedata, datafile)
 
-app.run(host="0.0.0.0", port=4925, debug=True)
+    return render_template("settings.html")
+app.run(host="0.0.0.0", port=8080, debug=True)
