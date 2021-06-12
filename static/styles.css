@@ -140,3 +140,17 @@ div.content {
   font-size: 18px;
   text-align: center;
 }
+
+.atag {
+  position: relative;
+  top: 30px;
+  padding: 10px;
+  font-size: 20px;
+  outline-style: auto;
+  cursor: pointer;
+  
+}
+
+.atag:hover{
+  opacity: 25%;
+}

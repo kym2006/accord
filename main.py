@@ -10,26 +10,7 @@ app = flask.Flask(__name__)
 timeleft = -1
 settime = -1
 
-
-@app.route('/')
-def root():
-    return render_template("index.html")
-
-
-@app.route('/done')
-def done():
-    if os.path.exists("data.json"):
-        with open("data.json") as datafile:
-            savedata = json.load(datafile)
-    else:
-        savedata = {}
-        savedata["id"] = 0
-        savedata["tags"] = []
-    return render_template('index.html', done=1, tags=savedata["tags"])
-
-
-@app.route('/addtag', methods=["POST"])
-def addtag():
+def getdata():
     if os.path.exists("data.json"):
         with open("data.json") as datafile:
             savedata = json.load(datafile)
@@ -38,8 +19,32 @@ def addtag():
         savedata["id"] = 0
         savedata["tags"] = []
     if "tags" not in savedata:
-        savedata["tags"] = []
-    savedata["tags"].append(request.form["newtag"])
+        savedata["tags"] = [] 
+    if "id" not in savedata:
+        savedata["id"] = 0 
+    return savedata 
+
+@app.route('/')
+def root():
+    return render_template("index.html")
+
+@app.route('/settings')
+def settings():
+    savedata = getdata()
+    return render_template("settings.html", tags=savedata["tags"])
+
+
+@app.route('/done')
+def done():
+    savedata = getdata()
+    return render_template('index.html', done=1, tags=savedata["tags"])
+
+
+@app.route('/addtag', methods=["POST"])
+def addtag():
+    savedata = getdata()
+    if request.form["newtag"] not in savedata["tags"]:
+        savedata["tags"].append(request.form["newtag"])
     with open("data.json", "w+") as datafile:
         json.dump(savedata, datafile)
 
@@ -82,13 +87,7 @@ def resettimer():
 
 @app.route('/viewlogs')
 def viewlogs():
-    if os.path.exists("data.json"):
-        with open("data.json") as datafile:
-            savedata = json.load(datafile)
-    else:
-        savedata = {}
-        savedata["id"] = 0
-        savedata["tags"] = []
+    savedata = getdata()
     for k, v in savedata.items():
         if type(v) == type(savedata):
             v['enddate'] = datetime.strptime(
@@ -118,17 +117,17 @@ def viewlogs():
 def intolog():
     if settime == -1:
         return render_template("index.html")
-    if os.path.exists("data.json"):
-        with open("data.json") as datafile:
-            savedata = json.load(datafile)
-    else:
-        savedata = {}
-        savedata["id"] = 0
-        savedata["tags"] = []
+    savedata = getdata()
     id = savedata["id"]
     savedata["id"] += 1
+    desc = request.form["desc"]
+    for k, v in request.form.items():
+        print(k[:3])
+        if k[:3] == "tag" and v=="on":
+            desc += f"| {k[3:]} "
+    print(desc)
     savedata[id] = dict({
-        "desc": request.form["desc"],
+        "desc": desc,
         "enddate": str(datetime.now()),
         "duration": settime
     })

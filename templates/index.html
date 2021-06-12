@@ -19,8 +19,8 @@
         />
         <br>
         {% for tag in tags %}
-        <span style="width: 25px; height: 25px; font-size: 25px;">{{tag}}</span>
-        <input type="checkbox" style="width: 25px; height: 25px" />
+        <label for="tag{{tag}}" style="width: 25px; height: 25px; font-size: 25px;">{{tag}}</label>
+        <input type="checkbox" style="width: 25px; height: 25px" id="tag{{tag}}" name="tag{{tag}}"/>
         {% endfor %}
         <br>
         <input type="submit" id="startbutton" />
@@ -56,18 +56,6 @@
     <br />
     <input type="submit" value="Start!" id="startbutton" />
   </form>
-  <div>
-    <form action="{{ url_for('addtag') }}" method="POST">
-      <input
-        type="text"
-        name="newtag"
-        class="addtaginput"
-        placeholder="Add something"
-      />
-      <br />
-      <input type="submit" value="Add Tag!" id="startbutton" />
-    </form>
-  </div>
   <script>
     // Get the modal
     var modal = document.getElementById("myModal");
