@@ -109,8 +109,8 @@ def viewlogs():
             (v['duration'] % 3600)//60).rjust(2, '0') + ":" + str(v['duration'] % 60).rjust(2, '0')
         di['desc'] = v['desc']
         info[datestr].append(di)
-    print(info)
-    return render_template("logs.html", logs=reversed(info.items()))
+    print(type(list(info.items())))
+    return render_template("logs.html", logs=reversed(list(info.items())))
 
 
 @app.route('/intolog', methods=['GET', 'POST'])
@@ -145,4 +145,4 @@ def removetag():
         json.dump(savedata, datafile)
 
     return render_template("settings.html")
-app.run(host="0.0.0.0", port=33507, debug=True)
+app.run(debug=True)
