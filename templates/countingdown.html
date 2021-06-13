@@ -6,7 +6,9 @@
   <form action="{{ url_for('resettimer') }}" method="POST">
     <input type="submit" value="Reset" id="startbutton" />
   </form>
+  <img id="screensaver" src="">
 </div>
+
 <script>
   var clock = document.getElementById("clock");
 
@@ -26,6 +28,36 @@
       });
     });
   }, 1000);
+
+  var mousetimeout;
+  var screensaver_active = false;
+  var idletime = 5;
+
+  function show_screensaver() {
+    $("#screensaver").fadeIn();
+    document.getElementById("screensaver").src="{{ url_for('static',filename='notsogeneric1.jpg') }}"
+    screensaver_active = true;
+  }
+
+  function stop_screensaver() {
+    $("#screensaver").fadeOut();
+    screensaver_active = false;
+  }
+
+
+  $(document).mousemove(function () {
+    clearTimeout(mousetimeout);
+
+    if (screensaver_active) {
+      stop_screensaver();
+    }
+
+    mousetimeout = setTimeout(function () {
+      show_screensaver();
+    }, 1000 * idletime); // 5 secs
+  });
+
+
 </script>
 
 {% endblock %}
