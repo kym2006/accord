@@ -8,6 +8,7 @@
         name="newtag"
         class="addtaginput"
         placeholder="Add something"
+        autofocus
       />
       <br />
       <input type="submit" value="Add Tag!" id="startbutton" />
@@ -28,18 +29,20 @@
 
 <script>
   var divtags = document.getElementById("tags");
-  for (let i = 0; i < divtags.children.length; i++) {
-    console.log(divtags.children[i]);
-    divtags.children[i].onclick = function () {
+  for (let ele of divtags.children) {
+
+    ele.onclick = function () {
+      console.log(ele)
       var xhr = new XMLHttpRequest();
       xhr.open("POST", '/removetag', true);
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.send(
         JSON.stringify({
-          value: divtags.children[i].innerHTML,
+          value: ele.innerHTML,
         })
       );
-      divtags.removeChild(divtags.children[i])
+
+      ele.style.display = "none"
     };
   }
 </script>
