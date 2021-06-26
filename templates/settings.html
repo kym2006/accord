@@ -22,8 +22,11 @@
 </div>
 
 <div style="align-items: center; text-align: center; position: relative; top: 50px;">
-  <input type="file"  accept="image/gif, image/jpeg, image/png" name="image" id="file" style="display: none;">
-
+  Custom background picture
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('changepic') }}">
+    <input type="file" name="file1">
+    <input type="Submit" value="Upload">
+  </form>
 
 </div>
 

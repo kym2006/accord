@@ -6,8 +6,9 @@ import math
 import time
 import json
 import os
+import base64
 app = flask.Flask(__name__)
-timeleft = -1
+timeleft = 0
 settime = -1
 
 def getdata():
@@ -50,6 +51,12 @@ def addtag():
 
     return render_template("settings.html", tags=savedata["tags"])
 
+
+@app.route('/changepic', methods=["POST"])
+def changepic():
+    savedata = getdata()
+    request.files['file1'].save("static/notsogeneric1.jpg")
+    return render_template("settings.html", tags=savedata["tags"])
 
 @app.route('/time_feed')
 def time_feed():
