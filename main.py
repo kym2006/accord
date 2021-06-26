@@ -6,7 +6,6 @@ import math
 import time
 import json
 import os
-import base64
 app = flask.Flask(__name__)
 timeleft = 0
 settime = -1
