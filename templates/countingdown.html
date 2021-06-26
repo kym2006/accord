@@ -15,15 +15,14 @@
   setInterval(() => {
     fetch("{{ url_for('time_feed') }}").then((response) => {
       response.text().then((t) => {
-        console.log(t);
         clock.innerHTML =
           String(Math.floor(t / 3600)).padStart(2, "0") +
           ":" +
           String(Math.floor((t % 3600) / 60)).padStart(2, "0") +
           ":" +
-          String(t % 60).padStart(2, "0");
+          String(t % 60).padStart(2, "0"); // Padding right
         if (t == 0) {
-          window.location.replace("/done");
+          window.location.replace("/done"); // redirect to homepage
         }
       });
     });
@@ -35,7 +34,7 @@
 
   function show_screensaver() {
     $("#screensaver").fadeIn();
-    document.getElementById("screensaver").src="{{ url_for('static',filename='notsogeneric1.jpg') }}"
+    document.getElementById("screensaver").src="{{ url_for('static',filename='notsogeneric1.jpg') }}" //make the source our background picture
     screensaver_active = true;
   }
 
